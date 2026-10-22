@@ -46,10 +46,15 @@ add_library(minidb_core
     src/storage/table_page.cpp
     src/catalog/catalog.cpp
     src/storage/table_heap.cpp
-    src/index/bplus_tree.cpp)
+    src/index/bplus_tree.cpp
+    src/lexer/lexer.cpp)
 
 target_include_directories(minidb_core PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_link_libraries(minidb_core PUBLIC minidb_warnings minidb_sanitizers)
+
+# Fase 2 - analizador léxico: demo independiente del motor.
+add_executable(lexer_demo src/lexer_demo.cpp)
+target_link_libraries(lexer_demo PRIVATE minidb_core)
 
 # TODO: habilitar cuando se suban los fuentes que faltan (src/database, parser,
 # execution, vector, index/hash_index y src/btree_demo.cpp); hoy solo existe
@@ -72,7 +77,8 @@ if(MINIDB_BUILD_TESTS)
         tests/buffer_pool_test.cpp
         tests/table_page_test.cpp
         tests/table_heap_test.cpp
-        tests/bplus_tree_test.cpp)
+        tests/bplus_tree_test.cpp
+        tests/lexer_test.cpp)
 
     foreach(test_source IN LISTS MINIDB_TEST_SOURCES)
         get_filename_component(test_name ${test_source} NAME_WE)
