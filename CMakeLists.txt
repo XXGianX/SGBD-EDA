@@ -92,3 +92,26 @@ if(MINIDB_BUILD_TESTS)
         gtest_discover_tests(${test_name} DISCOVERY_MODE PRE_TEST)
     endforeach()
 endif()
+
+# --- INTEGRACIÓN LAB 5: PARSER LL(1) ---
+
+# Compilar el ejecutable del test incluyendo la implementación del parser
+add_executable(ll1_parser_test 
+    parser_ll1/ll1_parser_test.cpp 
+    parser_ll1/ll1_parser.cpp
+)
+
+# Incluir las rutas de headers necesarias (parser local e include general)
+target_include_directories(ll1_parser_test PRIVATE 
+    ${CMAKE_CURRENT_SOURCE_DIR}/parser_ll1
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
+
+# Enlazar únicamente con Google Test
+target_link_libraries(ll1_parser_test PRIVATE 
+    GTest::gtest 
+    GTest::gtest_main
+)
+
+# Registrar la prueba
+add_test(NAME ll1_parser_test COMMAND ll1_parser_test)

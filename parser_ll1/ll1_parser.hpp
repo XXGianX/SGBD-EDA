@@ -10,10 +10,13 @@
 #include <stdexcept>
 #include <algorithm>
 
-// Conecta con el Lexer de la Practica 4
 #include "minidb/lexer/token.hpp"
 
 namespace minidb {
+
+// Alias para usar Token directamente del namespace del lexer
+using Token = minidb::lexer::Token;
+using TokenType = minidb::lexer::TokenType;
 
 enum class Terminal {
     SELECT, FROM, WHERE, AND, OR, IDENTIFIER, NUMBER, STAR, COMMA,
@@ -37,8 +40,7 @@ struct Symbol {
 class LL1Parser {
 public:
     LL1Parser();
-    
-    // Procesa el vector de tokens generado por el analizador lexico
+
     bool parse(const std::vector<Token>& tokens);
 
 private:
@@ -48,7 +50,7 @@ private:
 
     void initNames();
     void buildParseTable();
-    
+
     Terminal mapTokenToTerminal(const Token& token);
     std::string getSymbolName(const Symbol& sym);
 };
